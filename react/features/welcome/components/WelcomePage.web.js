@@ -183,16 +183,18 @@ class WelcomePage extends AbstractWelcomePage {
                         }
                     </div>
                     <div className = 'header-image' />
-                    <div className = 'header-text'>
+                    <div className = 'header-text' style = {{marginTop: "150px"}}>
                         <h1 className = 'header-text-title'>
                             { t('welcomepage.title') }
                         </h1>
-                        <p className = 'header-text-description'>
+                        <p className = 'header-text-description' style = {{display: "block"}}>
                             { t('welcomepage.appDescription',
                                 { app: APP_NAME }) }
+                            <a href = 'https://kredily.com'>Kredily</a>
                         </p>
                     </div>
-                    <div id = 'enter_room'>
+
+                    {/* <div id = 'enter_room'>
                         <div className = 'enter-room-input-container'>
                             <div className = 'enter-room-title'>
                                 { t('welcomepage.enterRoomTitle') }
@@ -221,8 +223,8 @@ class WelcomePage extends AbstractWelcomePage {
                                     : t('welcomepage.go')
                             }
                         </div>
-                    </div>
-                    { this._renderTabs() }
+                    </div> */}
+                    {/* { this._renderTabs() } */}
                 </div>
                 { showAdditionalContent
                     ? <div
