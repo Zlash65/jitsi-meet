@@ -235,11 +235,13 @@ var interfaceConfig = {
      * Specify mobile app scheme for opening the app from the mobile browser.
      */
     // APP_SCHEME: 'org.jitsi.meet',
+    APP_SCHEME: 'com.kredily.app',
 
     /**
      * Specify the Android app package name.
      */
     // ANDROID_APP_PACKAGE: 'org.jitsi.meet',
+    ANDROID_APP_PACKAGE: 'com.kredily.app',
 
     /**
      * Override the behavior of some notifications to remain displayed until
