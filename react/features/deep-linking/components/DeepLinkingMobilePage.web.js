@@ -129,21 +129,23 @@ class DeepLinkingMobilePage extends Component<Props> {
                     <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.appNotInstalled`, { app: NATIVE_APP_NAME }) }
                     </p>
-                    <a
+                    {/* <a
                         { ...onOpenLinkProperties }
                         href = { this._generateDownloadURL() }
                         onClick = { this._onDownloadApp }>
                         <button className = { downloadButtonClassName }>
                             { t(`${_TNS}.downloadApp`) }
                         </button>
-                    </a>
+                    </a> */}
                     <a
                         { ...onOpenLinkProperties }
                         className = { `${_SNS}__href` }
-                        href = { generateDeepLinkingURL() }
-                        onClick = { this._onOpenApp }>
+                        // href = { generateDeepLinkingURL() }
+                        // onClick = { this._onOpenApp }>
+                        >
+                        Launching soon...
                         {/* <button className = { `${_SNS}__button` }> */}
-                        { t(`${_TNS}.openApp`) }
+                        {/* { t(`${_TNS}.openApp`) } */}
                         {/* </button> */}
                     </a>
                     { renderPromotionalFooter() }
