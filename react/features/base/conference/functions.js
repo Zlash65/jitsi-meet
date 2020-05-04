@@ -375,6 +375,6 @@ export function sendLocalParticipant(
  */
 function safeStartCase(s = '') {
     return _.words(`${s}`.replace(/['\u2019]/g, '')).reduce(
-        (result, word, index) => result + (index ? ' ' : '') + _.upperFirst(word)
+        (result, word, index) => result + (index ? '-' : '') + _.upperFirst(word)
         , '');
 }
