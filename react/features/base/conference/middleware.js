@@ -202,8 +202,10 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
     };
     window.addEventListener('beforeunload', beforeUnloadHandler);
 
-    if (requireDisplayName
-        && !getLocalParticipant(getState)?.name
+    console.log(getLocalParticipant(getState)?.email)
+    if ((requireDisplayName || true)
+        && (!getLocalParticipant(getState)?.name
+        || !getLocalParticipant(getState)?.email)
         && !conference.isHidden()) {
         dispatch(openDisplayNamePrompt(undefined));
     }
