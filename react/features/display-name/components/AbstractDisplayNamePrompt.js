@@ -53,11 +53,18 @@ export default class AbstractDisplayNamePrompt<S: *>
      *     {@code true} - the dialog should be closed.
      *     {@code false} - the dialog should be left open.
      *
-     * @param {string} displayName - The display name to save.
+     * @param {string, string} displayName - The display name to save.
      * @returns {boolean}
      */
-    _onSetDisplayName(displayName) {
+    _onSetDisplayName(displayName, emailMobile) {
         if (!displayName || !displayName.trim()) {
+            return false;
+        }
+
+        // add email & mobile pattern match logic
+        let mobile_pattern = /^[6-9]+[0-9]{9}$/i;
+        let email_pattern = /^([^!#$%^&*\(\)\\=';[\]\{\},<>/?\s])+@([^!#$%^&*\(\)\\=';[\]\{\},.<>/?@\s])+(\.([a-zA-z0-9])+)+$/i;
+        if (!emailMobile || !emailMobile.trim() || !(email_pattern.test(emailMobile) || mobile_pattern.test(emailMobile))) {
             return false;
         }
 
@@ -66,6 +73,11 @@ export default class AbstractDisplayNamePrompt<S: *>
         // Store display name in settings
         dispatch(updateSettings({
             displayName
+        }));
+
+        // Store email / mobile number in settings
+        dispatch(updateSettings({
+            'email': emailMobile
         }));
 
         onPostSubmit && onPostSubmit();
