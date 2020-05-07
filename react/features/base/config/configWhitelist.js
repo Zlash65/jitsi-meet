@@ -149,5 +149,11 @@ export default [
     'useNicks',
     'useStunTurn',
     'webrtcIceTcpDisable',
-    'webrtcIceUdpDisable'
+    'webrtcIceUdpDisable',
+
+    /**
+     * Whitelist extra variables for kredily
+     */
+    'kredily'
+
 ].concat(extraConfigWhitelist);
