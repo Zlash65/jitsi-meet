@@ -528,7 +528,11 @@ var config = {
 
     // Allow all above example options to include a trailing comma and
     // prevent fear when commenting out the last value.
-    makeJsonParserHappy: 'even if last key had a trailing comma'
+    makeJsonParserHappy: 'even if last key had a trailing comma',
+
+
+    // Extra variables to override config for kredily
+    kredily: false,
 
     // no configuration value should follow this line.
 };
