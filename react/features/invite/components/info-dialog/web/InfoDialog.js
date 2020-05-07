@@ -276,7 +276,7 @@ class InfoDialog extends Component<Props, State> {
                                 { t('dialog.copy') }
                             </a>
                         </div>
-                        { this._renderPasswordAction() }
+                        {/* { this._renderPasswordAction() } */}
                     </div>
                 </div>
                 <textarea
