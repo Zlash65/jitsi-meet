@@ -1,5 +1,6 @@
 // @flow
 
+import getRoomName from '../config/getRoomName';
 import jwtDecode from 'jwt-decode';
 
 import { SET_CONFIG } from '../config';
