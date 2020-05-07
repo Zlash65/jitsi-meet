@@ -256,6 +256,11 @@ var interfaceConfig = {
      MOBILE_DYNAMIC_LINK
      PHONE_NUMBER_REGEX
     */
+
+    /**
+     * Extra variables to override config for kredily
+    */
+    KREDILY: false,
 };
 
 /* eslint-enable no-unused-vars, no-var, max-len */
