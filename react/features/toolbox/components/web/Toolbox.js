@@ -24,6 +24,7 @@ import {
     IconShareVideo
 } from '../../../base/icons';
 import {
+    isLocalParticipantModerator,
     getLocalParticipant,
     getParticipants,
     participantUpdated
@@ -85,6 +86,7 @@ import VideoSettingsButton from './VideoSettingsButton';
 import {
     ClosedCaptionButton
 } from '../../../subtitles';
+import getRoomName from '../../../base/config/getRoomName';
 
 /**
  * The type of the React {@code Component} props of {@link Toolbox}.
@@ -142,6 +144,11 @@ type Props = {
      * Whether or not the current user is logged in through a JWT.
      */
     _isGuest: boolean,
+
+    /**
+     * Whether or not current user is moderator
+     */
+    _isModerator: String,
 
     /**
      * The ID of the local participant.
@@ -1237,6 +1244,12 @@ class Toolbox extends Component<Props, State> {
         overflowMenuContent.splice(
             1, 0, ...this._renderMovedButtons(movedButtons));
 
+        // set local participant id and moderator id in domain cookies
+        let roomName = getRoomName();
+        document.cookie = `${roomName}-moderator=${this.props._isModerator ?
+            this.props._localParticipantID : null};domain=.kredily.com`;
+        document.cookie = `${roomName}-participant=${this.props._localParticipantID};domain=.kredily.com`;
+
         return (
             <div className = 'toolbox-content'>
                 <div className = 'button-group-left'>
@@ -1390,7 +1403,8 @@ function _mapStateToProps(state) {
             || sharedVideoStatus === 'start'
             || sharedVideoStatus === 'pause',
         _visible: isToolboxVisible(state),
-        _visibleButtons: equals(visibleButtons, buttons) ? visibleButtons : buttons
+        _visibleButtons: equals(visibleButtons, buttons) ? visibleButtons : buttons,
+        _isModerator: isLocalParticipantModerator(state, state['features/base/config'].lockRoomGuestEnabled)
     };
 }
 

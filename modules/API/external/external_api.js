@@ -824,6 +824,16 @@ export default class JitsiMeetExternalAPI extends EventEmitter {
     }
 
     /**
+     * Returns the list of participants in the conference. The local
+     * participant is included.
+     *
+     * @returns {object} The list of participants in the conference.
+     */
+    getParticipants() {
+        return this._participants;
+    }
+
+    /**
      * Check if the video is available.
      *
      * @returns {Promise} - Resolves with true if the video available, with
