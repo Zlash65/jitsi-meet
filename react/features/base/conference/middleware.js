@@ -202,7 +202,13 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
     };
     window.addEventListener('beforeunload', beforeUnloadHandler);
 
-    console.log(getLocalParticipant(getState)?.email)
+    // intercepter hack to sync email when using external-api
+    if(getLocalParticipant(getState)?.email) {
+        APP.API.notifyEmailChanged(getLocalParticipant(getState)?.id, {
+            email: getLocalParticipant(getState)?.email
+        });
+    }
+
     if ((requireDisplayName || true)
         && (!getLocalParticipant(getState)?.name
         || !getLocalParticipant(getState)?.email)
