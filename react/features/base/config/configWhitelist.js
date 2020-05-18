@@ -154,6 +154,7 @@ export default [
     /**
      * Whitelist extra variables for kredily
      */
-    'kredily'
+    'kredily',
+    'passcode'
 
 ].concat(extraConfigWhitelist);

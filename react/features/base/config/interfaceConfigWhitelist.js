@@ -75,5 +75,6 @@ export default [
     /**
      * Whitelist extra variables for kredily
      */
-    'KREDILY'
+    'KREDILY',
+    'PASSCODE'
 ];
