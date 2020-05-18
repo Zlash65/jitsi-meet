@@ -1,7 +1,7 @@
 /**
  * Round badge.
  */
-.badge-round {
+ .badge-round {
     background-color: $toolbarBadgeBackground;
     border-radius: 50%;
     box-sizing: border-box;
@@ -64,69 +64,162 @@
         width: 100%;
         z-index: $toolbarZ;
 
-        .button-group-center,
+        .button-group-center {
+            display: flex;
+            width: 80%;
+        }
+
         .button-group-left,
         .button-group-right {
             display: flex;
-            width: 33%;
+            width: 10%;
         }
 
         .button-group-center {
             justify-content: center;
 
-            .toolbox-button {
+            .toolbox-button-wth-dialog{
+                svg {
+                    width:20px;
+                    height:17px;
+                }
+            }
 
-                .toolbox-icon {
-                    background-color: #fff;
-                    border-radius: 50%;
-                    border: 1px solid #d1dbe8;
-                    margin: 0px 4px;
-                    width: 38px;
-                    height: 38px;
-        
-                    &:hover {
-                        background-color: #daebfa;
-                        border: 1px solid #daebfa;
-                    }
-        
-                    &.toggled {
-                        background: #2a3a4b;
-                        border: 1px solid #5e6d7a;
-    
-                        svg {
-                            fill: #fff;
-                        }
-        
+            .toolbox-button {
+                &[aria-label="Toggle mute audio"] {
+                    .toolbox-icon {
+                        background-color: #fff;
+                        border-radius: 50%;
+                        border: 1px solid #d1dbe8;
+                        margin: 0px 4px;
+                        width: 50px;
+                        height: 50px;
+                        top: 0px;
+                        position: relative;
+            
                         &:hover {
-                            background-color: #5e6d7a;
+                            background-color: #daebfa;
+                            border: 1px solid #daebfa;
+                        }
+            
+                        &.toggled {
+                           background: #bf2117;
+                            border: 1px solid #bf2117;
+                            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.29);
+        
+                            svg {
+                                fill: #fff;
+                            }
+            
+                            &:hover {
+                                background-color: #9e2119;
+                                border-color: #9e2119;
+                            }
+                        }
+            
+                        &.disabled, .disabled & {
+                            cursor: initial;
+                            color: #fff;
+                            background-color: #a4b8d1;
+                        }
+        
+                        svg {
+                            fill: #5e6d7a;
+                            width: 30px;
+                            height: 30px;
                         }
                     }
-        
-                    &.disabled, .disabled & {
-                        cursor: initial;
-                        color: #fff;
-                        background-color: #a4b8d1;
-                    }
-    
-                    svg {
-                        fill: #5e6d7a;
-                    }
+
                 }
 
-                &:nth-child(2) {
+                &[aria-label="Toggle mute video"] {
+                    .toolbox-icon {
+                        background-color: #fff;
+                        border-radius: 50%;
+                        border: 1px solid #d1dbe8;
+                        margin: 0px 4px;
+                        width: 50px;
+                        height: 50px;
+                        top: 0px;
+                        position: relative;
+
+                        &:hover {
+                            background-color: #daebfa;
+                            border: 1px solid #daebfa;
+                        }
+            
+                        &.toggled {
+                            background: #bf2117;
+                            border: 1px solid #bf2117;
+                            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.29);
+        
+                            svg {
+                                fill: #fff;
+                            }
+            
+                            &:hover {
+                                background-color: #9e2119;
+                                border-color: #9e2119;
+                            }
+                        }
+            
+                        &.disabled, .disabled & {
+                            cursor: initial;
+                            color: #fff;
+                            background-color: #a4b8d1;
+                        }
+        
+                        svg {
+                            fill: #5e6d7a;
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
+
+                }
+
+                &:nth-child(4) {
                     .toolbox-icon {
                         background-color: $hangupColor;
                         border: 1px solid $hangupColor;
-                        width: 40px;
-                        height: 40px;
-                
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        margin: 0px 4px;
+                        top: 0px;
+                        position: relative;
+
                         &:hover {
                             background-color: $hangupColor;
                         }
 
                         svg {
-                            fill: #fff;
+                            fill: #bf2117;
+                            width: 30px;
+                            height: 30px;
                         }
+                    }
+                }
+
+                &[aria-label="Toggle screenshare"] {
+                    svg{
+                        width: 28px;
+                    height: 28px;
+                    margin-top: 2px; 
+                    }
+                }
+
+                &[aria-label="Toggle tile view"] {
+                    svg{
+                        width: 22px;
+                    height: 22px;
+                    }
+                }
+
+                &[aria-label="Toggle raise hand"] {
+                    svg{
+                    position: relative;
+                    right: 1px;
                     }
                 }
             }
@@ -225,6 +318,11 @@
             line-height: $newToolbarSize;
             margin: 0 8px;
             text-align: center;
+            &[aria-label="Toggle chat window"]{
+                .toolbox-icon {
+                    top: 10px;
+                }
+            }
         }
 
         .toolbar-button-with-badge {
@@ -247,17 +345,20 @@
 
         .toolbox-icon {
             display: flex;
-            border-radius: 5px;
+            border-radius: 50%;
             flex-direction: column;
             font-size: 24px;
             height: $newToolbarSize;
             justify-content: center;
             width: $newToolbarSize;
+            top: 7px;
+            position: relative;
+            background: $newToolbarButtonHoverColor;
 
             &:hover, &.toggled {
-                background: $newToolbarButtonHoverColor;
+                background: rgba(37, 36, 36, 0.15);
             }
-    
+
             &.disabled {
                 cursor: initial !important;
                 background-color: #a4b8d1 !important;
