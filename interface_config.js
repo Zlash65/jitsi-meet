@@ -261,6 +261,7 @@ var interfaceConfig = {
      * Extra variables to override config for kredily
     */
     KREDILY: false,
+    PASSCODE: ''
 };
 
 /* eslint-enable no-unused-vars, no-var, max-len */
