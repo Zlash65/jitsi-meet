@@ -25,6 +25,16 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+
+    // intercept conference start and check if the room
+    // is being accessed directly or through Kredily route
+    let roomName = getRoomName();
+    if(window.config_override && roomName) {
+        if(store.getState()['features/base/config'].kredily
+            || interfaceConfig.KREDILY || window.kredily) window.kredily = true;
+        if(!window.kredily) window.location.href = "https://app.kredily.com/greet/" + roomName;
+    }
+
     switch (action.type) {
     case SET_CONFIG:
     case SET_LOCATION_URL:

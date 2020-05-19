@@ -328,8 +328,8 @@ class InfoDialog extends Component<Props, State> {
         // });
 
         if(this.props._password) {
-            invite += (t('info.inviteURLSecondPart')).trim();
-            invite =`${invite} PIN ${this.props._password} - ${_inviteURL}`;
+            invite += `\n${(t('info.inviteURLSecondPart')).trim()}`;
+            invite =`${invite} \nPIN ${this.props._password} - ${_inviteURL}`;
         } else {
            invite += t('info.inviteURLSecondPart', {
                 url: _inviteURL
