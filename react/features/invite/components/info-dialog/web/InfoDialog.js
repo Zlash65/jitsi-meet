@@ -290,7 +290,7 @@ class InfoDialog extends Component<Props, State> {
                     readOnly = { true }
                     ref = { this._setCopyUrlElement }
                     tabIndex = '-1'
-                    value = { this.props._inviteURL } />
+                    value = {this.props._password ? "PIN "+ this.props._password +" - "+ this.props._inviteURL:this.props._inviteURL} />
             </div>
         );
 
@@ -323,9 +323,18 @@ class InfoDialog extends Component<Props, State> {
             ? t('info.inviteURLFirstPartPersonal', { name: _localParticipantName })
             : t('info.inviteURLFirstPartGeneral');
 
-        invite += t('info.inviteURLSecondPart', {
-            url: _inviteURL
-        });
+        // invite += t('info.inviteURLSecondPart', {
+        //     url: _inviteURL
+        // });
+
+        if(this.props._password) {
+            invite += `\n${(t('info.inviteURLSecondPart')).trim()}`;
+            invite =`${invite} \nPIN ${this.props._password} - ${_inviteURL}`;
+        } else {
+           invite += t('info.inviteURLSecondPart', {
+                url: _inviteURL
+            });
+        }
 
         if (liveStreamViewURL) {
             const liveStream = t('info.inviteLiveStream', {
@@ -637,7 +646,7 @@ function _mapStateToProps(state) {
         _localParticipantName: localParticipant?.name,
         _locationURL: state['features/base/connection'].locationURL,
         _locked: locked,
-        _password: password
+        _password: interfaceConfig.PASSCODE
     };
 }
 

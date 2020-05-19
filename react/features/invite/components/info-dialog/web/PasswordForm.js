@@ -163,7 +163,7 @@ class PasswordForm extends Component<Props, State> {
 
         return (
             <div className = 'info-password-none'>
-                { this.props.t('info.noPassword') }
+                { interfaceConfig.PASSCODE || config.passcode }
             </div>
         );
     }

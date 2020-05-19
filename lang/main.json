@@ -437,7 +437,7 @@
         "yes": "Yes"
     },
     "lockRoomPassword": "password",
-    "lockRoomPasswordUppercase": "Password",
+    "lockRoomPasswordUppercase": "PIN",
     "me": "me",
     "notify": {
         "connectedOneMember": "{{name}} joined the meeting",

@@ -533,6 +533,7 @@ var config = {
 
     // Extra variables to override config for kredily
     kredily: false,
+    passcode: ''
 
     // no configuration value should follow this line.
 };

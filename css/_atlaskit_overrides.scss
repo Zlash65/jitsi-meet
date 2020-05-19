@@ -2,7 +2,7 @@
  * Move the @atlaskit/flag container up a little bit so it does not cover the
  * toolbar with the first notification.
  */
-.cjMOOK{
+ .cjMOOK{
     bottom: calc(#{$newToolbarSizeWithPadding}) !important;
 }
 
@@ -38,7 +38,7 @@
  * the video thumbnail while obscuring as little as possible.
  */
 .videocontainer .tOoji {
-    background: none;
+    background: none !important;
 }
 
 /**
@@ -47,4 +47,12 @@
  */
 .toolbox-button-wth-dialog .eYJELv {
     max-height: initial;
+}
+
+.toolbox-button-wth-dialog .jLkPZH{
+    background: #1e2844;
+    color: #dad8e4;
+    .info-dialog .info-dialog-icon{
+            padding-top: 4px;
+    }
 }
