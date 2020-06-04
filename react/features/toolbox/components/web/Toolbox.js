@@ -86,7 +86,6 @@ import VideoSettingsButton from './VideoSettingsButton';
 import {
     ClosedCaptionButton
 } from '../../../subtitles';
-import getRoomName from '../../../base/config/getRoomName';
 
 /**
  * The type of the React {@code Component} props of {@link Toolbox}.
@@ -1245,10 +1244,9 @@ class Toolbox extends Component<Props, State> {
             1, 0, ...this._renderMovedButtons(movedButtons));
 
         // set local participant id and moderator id in domain cookies
-        let roomName = getRoomName();
-        document.cookie = `${roomName}-moderator=${this.props._isModerator ?
-            this.props._localParticipantID : null};domain=.kredily.com`;
-        document.cookie = `${roomName}-participant=${this.props._localParticipantID};domain=.kredily.com`;
+        let participantID = this.props._localParticipantID;
+        if(![null, undefined, "", "local"].includes(participantID))
+            document.cookie = `localParticipantID=${participantID};domain=.kredily.com`;
 
         return (
             <div className = 'toolbox-content'>
