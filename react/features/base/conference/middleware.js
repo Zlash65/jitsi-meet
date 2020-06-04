@@ -209,9 +209,8 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
         });
     }
 
-    if ((requireDisplayName || true)
-        && (!getLocalParticipant(getState)?.name
-        || !getLocalParticipant(getState)?.email)
+    if (requireDisplayName
+        && !getLocalParticipant(getState)?.name
         && !conference.isHidden()) {
         dispatch(openDisplayNamePrompt(undefined));
     }
