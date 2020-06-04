@@ -13,6 +13,7 @@ import {
 } from '../../analytics';
 import { Dialog } from '../../base/dialog';
 import { translate } from '../../base/i18n';
+import getRoomName from '../../base/config/getRoomName';
 
 import { cancelFeedback, submitFeedback } from '../actions';
 
@@ -275,6 +276,9 @@ class FeedbackDialog extends Component<Props, State> {
         const { message, score } = this.state;
         const scoreToSubmit = score > -1 ? score + 1 : score;
 
+        // persistently mark feedback as submitted
+        APP.store.getState()["features/feedback"].submitted = true;
+
         this.props.dispatch(cancelFeedback(scoreToSubmit, message));
 
         return true;
@@ -345,7 +349,25 @@ class FeedbackDialog extends Component<Props, State> {
 
         const scoreToSubmit = score > -1 ? score + 1 : score;
 
-        dispatch(submitFeedback(scoreToSubmit, message, conference));
+        // send feedback to kredily endpoint
+        const roomName = getRoomName();
+        const feedback_url = "https://app.kredily.com/videochat/record-meeting-feedback/";
+        const localParticipantID = document.cookie.replace(/(?:(?:^|.*;\s*)localParticipantID\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+        $.ajax({
+            method: "POST",
+            url: feedback_url,
+            crossDomain: true,
+            dataType: 'jsonp',
+            data: { "meeting_id": roomName, "participant": localParticipantID,
+                "score": scoreToSubmit, "message": message}
+        });
+
+        // disbale callstats.io trigger
+        // dispatch(submitFeedback(scoreToSubmit, message, conference));
+
+        // persistently mark feedback as submitted
+        APP.store.getState()["features/feedback"].submitted = true;
 
         return true;
     }
