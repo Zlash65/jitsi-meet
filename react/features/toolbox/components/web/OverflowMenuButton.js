@@ -1,5 +1,8 @@
 /* @flow */
 
+// -------------- import mobile browser check helper --------------
+import { isMobileBrowser } from '../../../base/environment/utils';
+
 import InlineDialog from '@atlaskit/inline-dialog';
 import React, { Component } from 'react';
 
@@ -78,7 +81,10 @@ class OverflowMenuButton extends Component<Props> {
                         icon = { IconMenuThumb }
                         onClick = { this._onToggleDialogVisibility }
                         toggled = { isOpen }
-                        tooltip = { t('toolbar.moreActions') } />
+                        // tooltip = { t('toolbar.moreActions') } />
+
+                        // ----------------- hide tooltip in mobile view -----------------
+                        tooltip = { isMobileBrowser() ? '' : t('toolbar.moreActions') } />
                 </InlineDialog>
             </div>
         );

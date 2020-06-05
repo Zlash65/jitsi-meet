@@ -36,7 +36,11 @@ function CopyMeetingLinkSection({ t, url }: Props) {
      */
     function onClick() {
         setIsHovered(false);
-        if (copyText(url)) {
+
+        // ----------------- Update share url with PIN -----------------
+        const newUrl = url + " - " + "PIN " + interfaceConfig.PASSCODE;
+
+        if (copyText(newUrl)) {
             setIsClicked(true);
 
             setTimeout(() => {

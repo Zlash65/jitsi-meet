@@ -1,5 +1,8 @@
 // @flow
 
+// ------------ import mobile browser check helper ------------
+import { isMobileBrowser } from '../../base/environment/utils';
+
 import UIEvents from '../../../../service/UI/UIEvents';
 import {
     ACTION_SHORTCUT_TRIGGERED,
@@ -66,6 +69,9 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.videomute';
     label = 'toolbar.videomute';
     tooltip = 'toolbar.videomute';
+
+    // ------------ hide tooltip in mobile view ------------
+    tooltip = isMobileBrowser() ? '' : 'toolbar.videomute';
 
     /**
      * Initializes a new {@code VideoMuteButton} instance.

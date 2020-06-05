@@ -1,5 +1,8 @@
 // @flow
 
+// ------------ import mobile browser check helper ------------
+import { isMobileBrowser } from '../../base/environment/utils';
+
 import {
     ACTION_SHORTCUT_TRIGGERED,
     AUDIO_MUTE,
@@ -51,6 +54,9 @@ class AudioMuteButton extends AbstractAudioMuteButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.mute';
     label = 'toolbar.mute';
     tooltip = 'toolbar.mute';
+
+    // --------- hide tooltip in mobile view ---------
+    tooltip = isMobileBrowser() ? '' : 'toolbar.mute';
 
     /**
      * Initializes a new {@code AudioMuteButton} instance.

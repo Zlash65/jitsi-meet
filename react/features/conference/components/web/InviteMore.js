@@ -1,5 +1,8 @@
 // @flow
 
+// -------------- import mobile browser check helper --------------
+import { isMobileBrowser } from '../../../base/environment/utils';
+
 import React from 'react';
 
 import { translate } from '../../../base/i18n';
@@ -48,6 +51,7 @@ function InviteMore({
 }: Props) {
     return (
         _visible
+            && !isMobileBrowser() // Disable "Invite People" from main header for mobile view
             ? <div className = { `invite-more-container${_tileViewEnabled ? ' elevated' : ''}` }>
                 <div className = 'invite-more-header'>
                     {t('addPeople.inviteMoreHeader')}

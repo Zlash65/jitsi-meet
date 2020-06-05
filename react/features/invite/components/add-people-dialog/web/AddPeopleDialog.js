@@ -151,6 +151,24 @@ function AddPeopleDialog({
                 <InviteByEmailSection
                     inviteSubject = { inviteSubject }
                     inviteText = { invite } />
+
+                {/* ----------------------------- PIN in share dialog ----------------------------- */}
+                <div style={{display: 'flex', alignItems: 'baseline'}}>
+                    <span style={{fontWeight: '700'}}>PIN - </span>
+                    <span className = 'spacer'>&nbsp;</span>
+                    <span style={{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                        <div style={{opacity: '.5'}}>
+                            { `${interfaceConfig.PASSCODE}` }
+                        </div>
+                    </span>
+                </div>
+
+                {
+                    (_liveStreamViewURL || _dialIn.numbers)
+                        && <div className = 'invite-more-dialog separator' />
+                }
+                {/* ----------------------------- PIN in share dialog ----------------------------- */}
+
                 {
                     _liveStreamViewURL
                         && <LiveStreamSection liveStreamViewURL = { _liveStreamViewURL } />

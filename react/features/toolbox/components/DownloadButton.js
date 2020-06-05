@@ -1,5 +1,8 @@
 // @flow
 
+// ------------ import mobile browser check helper ------------
+import { isMobileBrowser } from '../../base/environment/utils';
+
 import { createToolbarEvent, sendAnalytics } from '../../analytics';
 import { translate } from '../../base/i18n';
 import { IconDownload } from '../../base/icons';
@@ -23,6 +26,9 @@ class DownloadButton extends AbstractButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.download';
     icon = IconDownload;
     label = 'toolbar.download';
+
+    // ---------- hide tooltip in mobile view ----------
+    label = isMobileBrowser() ? '' : 'toolbar.download';
 
     /**
      * Handles clicking / pressing the button, and opens a new window with the user documentation.

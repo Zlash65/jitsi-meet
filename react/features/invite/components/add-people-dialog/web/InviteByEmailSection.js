@@ -42,8 +42,12 @@ type Props = {
  */
 function InviteByEmailSection({ inviteSubject, inviteText, t }: Props) {
     const [ isActive, setIsActive ] = useState(false);
+
+    // ------------------------ Update share url with PIN ------------------------
+    const newInviteText = inviteText + " - " + "PIN " + interfaceConfig.PASSCODE;
+
     const encodedInviteSubject = encodeURIComponent(inviteSubject);
-    const encodedInviteText = encodeURIComponent(inviteText);
+    const encodedInviteText = encodeURIComponent(newInviteText);
 
     /**
      * Copies the conference invitation to the clipboard.
@@ -51,7 +55,7 @@ function InviteByEmailSection({ inviteSubject, inviteText, t }: Props) {
      * @returns {void}
      */
     function _onCopyText() {
-        copyText(inviteText);
+        copyText(newInviteText);
     }
 
     /**

@@ -1,5 +1,8 @@
 // @flow
 
+// ------------ import mobile browser check helper ------------
+import { isMobileBrowser } from '../../base/environment/utils';
+
 import _ from 'lodash';
 
 import { createToolbarEvent, sendAnalytics } from '../../analytics';
@@ -32,6 +35,9 @@ class HangupButton extends AbstractHangupButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.hangup';
     label = 'toolbar.hangup';
     tooltip = 'toolbar.hangup';
+
+    // ---------- hide tooltip in mobile view ----------
+    tooltip = isMobileBrowser() ? '' : 'toolbar.hangup';
 
     /**
      * Initializes a new HangupButton instance.
