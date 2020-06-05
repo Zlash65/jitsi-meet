@@ -4,7 +4,6 @@ import { FieldTextAreaStateless } from '@atlaskit/field-text-area';
 import StarIcon from '@atlaskit/icon/glyph/star';
 import StarFilledIcon from '@atlaskit/icon/glyph/star-filled';
 import React, { Component } from 'react';
-import { connect } from '../../base/redux';
 import type { Dispatch } from 'redux';
 
 import {
@@ -15,6 +14,7 @@ import { Dialog } from '../../base/dialog';
 import { translate } from '../../base/i18n';
 import getRoomName from '../../base/config/getRoomName';
 
+import { connect } from '../../base/redux';
 import { cancelFeedback, submitFeedback } from '../actions';
 
 declare var APP: Object;
