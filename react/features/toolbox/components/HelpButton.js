@@ -1,11 +1,14 @@
 // @flow
 
+// ------------ import mobile browser check helper ------------
+import { isMobileBrowser } from '../../base/environment/utils';
+
 import { createToolbarEvent, sendAnalytics } from '../../analytics';
 import { translate } from '../../base/i18n';
 import { IconHelp } from '../../base/icons';
 import { connect } from '../../base/redux';
-import { openURLInBrowser } from '../../base/util';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox';
+import { openURLInBrowser } from '../../base/util';
 
 
 type Props = AbstractButtonProps & {
@@ -23,6 +26,9 @@ class HelpButton extends AbstractButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.help';
     icon = IconHelp;
     label = 'toolbar.help';
+
+    // -------- hide tooltip in mobile view --------
+    label = isMobileBrowser() ? '' : 'toolbar.help';
 
     /**
      * Handles clicking / pressing the button, and opens a new window with the user documentation.
