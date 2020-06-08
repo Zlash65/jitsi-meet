@@ -1,5 +1,8 @@
 // @flow
 
+// -------------- import mobile browser check helper --------------
+import { isMobileBrowser } from '../../../base/environment/utils';
+
 import React, { Component } from 'react';
 
 import {
@@ -15,7 +18,8 @@ import {
     IconExitFullScreen,
     IconFeedback,
     IconFullScreen,
-    IconInvite,
+    IconInfo,
+    IconInviteMore,
     IconOpenInNew,
     IconPresentation,
     IconRaisedHand,
@@ -37,12 +41,7 @@ import { ChatCounter, toggleChat } from '../../../chat';
 import { E2EEButton } from '../../../e2ee';
 import { SharedDocumentButton } from '../../../etherpad';
 import { openFeedbackDialog } from '../../../feedback';
-import {
-    beginAddPeople,
-    InfoDialogButton,
-    isAddPeopleEnabled,
-    isDialOutEnabled
-} from '../../../invite';
+import { beginAddPeople } from '../../../invite';
 import { openKeyboardShortcutsDialog } from '../../../keyboard-shortcuts';
 import {
     LocalRecordingButton,
@@ -52,6 +51,7 @@ import {
     LiveStreamButton,
     RecordButton
 } from '../../../recording';
+import { SecurityDialogButton } from '../../../security';
 import {
     SETTINGS_TABS,
     SettingsButton,
@@ -60,6 +60,9 @@ import {
 import { toggleSharedVideo } from '../../../shared-video';
 import { SpeakerStats } from '../../../speaker-stats';
 import {
+    ClosedCaptionButton
+} from '../../../subtitles';
+import {
     TileViewButton,
     toggleTileView
 } from '../../../video-layout';
@@ -67,25 +70,22 @@ import {
     OverflowMenuVideoQualityItem,
     VideoQualityDialog
 } from '../../../video-quality';
-
 import {
     setFullScreen,
     setOverflowMenuVisible,
     setToolbarHovered
 } from '../../actions';
-import AudioSettingsButton from './AudioSettingsButton';
-import DownloadButton from '../DownloadButton';
 import { isToolboxVisible } from '../../functions';
+import DownloadButton from '../DownloadButton';
 import HangupButton from '../HangupButton';
 import HelpButton from '../HelpButton';
+
+import AudioSettingsButton from './AudioSettingsButton';
+import MuteEveryoneButton from './MuteEveryoneButton';
 import OverflowMenuButton from './OverflowMenuButton';
 import OverflowMenuProfileItem from './OverflowMenuProfileItem';
-import MuteEveryoneButton from './MuteEveryoneButton';
 import ToolbarButton from './ToolbarButton';
 import VideoSettingsButton from './VideoSettingsButton';
-import {
-    ClosedCaptionButton
-} from '../../../subtitles';
 
 /**
  * The type of the React {@code Component} props of {@link Toolbox}.
@@ -134,12 +134,6 @@ type Props = {
     _tileViewEnabled: boolean,
 
     /**
-     * Whether or not invite should be hidden, regardless of feature
-     * availability.
-     */
-    _hideInviteButton: boolean,
-
-    /**
      * Whether or not the current user is logged in through a JWT.
      */
     _isGuest: boolean,
@@ -158,6 +152,12 @@ type Props = {
      * The subsection of Redux state for local recording
      */
     _localRecState: Object,
+
+    /**
+     * The value for how the conference is locked (or undefined if not locked)
+     * as defined by room-lock constants.
+     */
+    _locked: boolean,
 
     /**
      * Whether or not the overflow menu is visible.
@@ -983,13 +983,16 @@ class Toolbox extends Component<Props, State> {
                     key = 'fullscreen'
                     onClick = { this._onToolbarToggleFullScreen }
                     text = { _fullScreen ? t('toolbar.exitFullScreen') : t('toolbar.enterFullScreen') } />,
-            <LiveStreamButton
-                key = 'livestreaming'
-                showLabel = { true } />,
-            <RecordButton
-                key = 'record'
-                showLabel = { true } />,
+            !isMobileBrowser() // disable LiveStream in mobile view
+                && <LiveStreamButton
+                    key = 'livestreaming'
+                    showLabel = { true } />,
+            !isMobileBrowser() && false // disable Record for web and mobile
+                && <RecordButton
+                    key = 'record'
+                    showLabel = { true } />,
             this._shouldShowButton('sharedvideo')
+                && !isMobileBrowser() // disable Share Youtube Video in mobile view
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.sharedvideo') }
                     icon = { IconShareVideo }
@@ -997,13 +1000,15 @@ class Toolbox extends Component<Props, State> {
                     onClick = { this._onToolbarToggleSharedVideo }
                     text = { _sharingVideo ? t('toolbar.stopSharedVideo') : t('toolbar.sharedvideo') } />,
             this._shouldShowButton('etherpad')
+                && !isMobileBrowser() // disable Etherpad in mobile view
                 && <SharedDocumentButton
                     key = 'etherpad'
                     showLabel = { true } />,
-            <VideoBlurButton
-                key = 'videobackgroundblur'
-                showLabel = { true }
-                visible = { this._shouldShowButton('videobackgroundblur') && !_screensharing } />,
+            !isMobileBrowser() // disable Blur Video in mobile view
+                && <VideoBlurButton
+                    key = 'videobackgroundblur'
+                    showLabel = { true }
+                    visible = { this._shouldShowButton('videobackgroundblur') && !_screensharing } />,
             <SettingsButton
                 key = 'settings'
                 showLabel = { true }
@@ -1013,6 +1018,7 @@ class Toolbox extends Component<Props, State> {
                 showLabel = { true }
                 visible = { this._shouldShowButton('mute-everyone') } />,
             this._shouldShowButton('stats')
+                && !isMobileBrowser() // disable Speaker Stats in mobile view
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.speakerStats') }
                     icon = { IconPresentation }
@@ -1020,10 +1026,12 @@ class Toolbox extends Component<Props, State> {
                     onClick = { this._onToolbarOpenSpeakerStats }
                     text = { t('toolbar.speakerStats') } />,
             this._shouldShowButton('e2ee')
+                && !isMobileBrowser() // disable E2EE in mobile view
                 && <E2EEButton
                     key = 'e2ee'
                     showLabel = { true } />,
             this._shouldShowButton('feedback')
+                && !isMobileBrowser() // disable Feedback in mobile view
                 && _feedbackConfigured
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.feedback') }
@@ -1039,10 +1047,12 @@ class Toolbox extends Component<Props, State> {
                     onClick = { this._onToolbarOpenKeyboardShortcuts }
                     text = { t('toolbar.shortcuts') } />,
             this._shouldShowButton('download')
+                && !isMobileBrowser() // disable Download in mobile view
                 && <DownloadButton
                     key = 'download'
                     showLabel = { true } />,
             this._shouldShowButton('help')
+                && !isMobileBrowser() // disable Help in mobile view
                 && <HelpButton
                     key = 'help'
                     showLabel = { true } />
@@ -1099,13 +1109,17 @@ class Toolbox extends Component<Props, State> {
                 );
             case 'closedcaptions':
                 return <ClosedCaptionButton showLabel = { true } />;
-            case 'info':
-                return <InfoDialogButton showLabel = { true } />;
+            case 'security':
+                return (
+                    <SecurityDialogButton
+                        key = 'security'
+                        showLabel = { true } />
+                );
             case 'invite':
                 return (
                     <OverflowMenuItem
                         accessibilityLabel = { t('toolbar.accessibilityLabel.invite') }
-                        icon = { IconInvite }
+                        icon = { IconInviteMore }
                         key = 'invite'
                         onClick = { this._onToolbarOpenInvite }
                         text = { t('toolbar.invite') } />
@@ -1161,7 +1175,6 @@ class Toolbox extends Component<Props, State> {
     _renderToolboxContent() {
         const {
             _chatOpen,
-            _hideInviteButton,
             _overflowMenuVisible,
             _raisedHand,
             t
@@ -1198,16 +1211,19 @@ class Toolbox extends Component<Props, State> {
         if (overflowHasItems) {
             buttonsRight.push('overflowmenu');
         }
-        if (this._shouldShowButton('info')) {
-            buttonsRight.push('info');
-        }
-        if (this._shouldShowButton('invite') && !_hideInviteButton) {
+        if (this._shouldShowButton('invite')) {
             buttonsRight.push('invite');
         }
+        if ((this._shouldShowButton('security') || this._shouldShowButton('info'))
+            && !isMobileBrowser()) { // disable Security option in mobile view
+            buttonsRight.push('security');
+        }
+
         if (this._shouldShowButton('tileview')) {
             buttonsRight.push('tileview');
         }
-        if (this._shouldShowButton('localrecording')) {
+        if (this._shouldShowButton('localrecording')
+            && !isMobileBrowser()) { // disable Recording in mobile view
             buttonsRight.push('localrecording');
         }
 
@@ -1258,7 +1274,10 @@ class Toolbox extends Component<Props, State> {
                                 icon = { IconChat }
                                 onClick = { this._onToolbarToggleChat }
                                 toggled = { _chatOpen }
-                                tooltip = { t('toolbar.chat') } />
+                                // tooltip = { t('toolbar.chat') } />
+
+                                // ------------ disable tooltip in mobile view ------------
+                                tooltip = { isMobileBrowser() ? '' : t('toolbar.chat') } />
                             <ChatCounter />
                         </div> }
                     {
@@ -1268,24 +1287,37 @@ class Toolbox extends Component<Props, State> {
                 </div>
                 <div className = 'button-group-center'>
                     { buttonsLeft.indexOf('raisehand') !== -1
+                        && !isMobileBrowser() // disable Raise Hand main screen button in mobile view
                         && <ToolbarButton
                             accessibilityLabel = { t('toolbar.accessibilityLabel.raiseHand') }
                             icon = { IconRaisedHand }
                             onClick = { this._onToolbarToggleRaiseHand }
                             toggled = { _raisedHand }
-                            tooltip = { t('toolbar.raiseHand') } /> }
+                            // tooltip = { t('toolbar.raiseHand') } /> }
+
+                            // ---------------- disable tooltip in mobile view ----------------
+                            tooltip = { isMobileBrowser() ? '' : t('toolbar.raiseHand') } /> }
                     { buttonsLeft.indexOf('desktop') !== -1
+                        && !isMobileBrowser() // disable Share Screen main screen button in mobile view
                         && this._renderDesktopSharingButton() }        
                     { this._renderAudioButton() }
                     <HangupButton
                         visible = { this._shouldShowButton('hangup') } />
                     { this._renderVideoButton() }
                     { buttonsRight.indexOf('tileview') !== -1
+                        && !isMobileBrowser() // disable Tile View main screen button in mobile view
                         && <TileViewButton /> }
-                    {
-                        buttonsRight.indexOf('info') !== -1
-                            && <InfoDialogButton />
-                    }    
+
+                    {/* ------------ Add Share Meeting Info in center buttons group ------------ */}
+                    { buttonsRight.indexOf('invite') !== -1
+                        && !isMobileBrowser() // disable Invite main screen button in mobile view
+                        && <ToolbarButton
+                            accessibilityLabel =
+                                { t('toolbar.accessibilityLabel.invite') }
+                            icon = { IconInfo }
+                            onClick = { this._onToolbarOpenInvite }
+                            tooltip = { isMobileBrowser() ? '' : t('toolbar.invite') } /> }
+                    {/* ------------ Add Share Meeting Info in center buttons group ------------ */}
                 </div>
                 <div className = 'button-group-right'>
                     { buttonsRight.indexOf('localrecording') !== -1
@@ -1294,14 +1326,19 @@ class Toolbox extends Component<Props, State> {
                                 this._onToolbarOpenLocalRecordingInfoDialog
                             } />
                     }
-                    
-                    { buttonsRight.indexOf('invite') !== -1
+
+                    {/* ------------- Add Share Meeting Info in center buttons group ------------- */}
+                    {/* { buttonsRight.indexOf('invite') !== -1
                         && <ToolbarButton
                             accessibilityLabel =
                                 { t('toolbar.accessibilityLabel.invite') }
-                            icon = { IconInvite }
+                            icon = { IconInviteMore }
                             onClick = { this._onToolbarOpenInvite }
-                            tooltip = { t('toolbar.invite') } /> }
+                            tooltip = { t('toolbar.invite') } /> } */}
+                    {/* { buttonsRight.indexOf('security') !== -1
+                        && <SecurityDialogButton customClass = 'security-toolbar-button' /> } */}
+                    {/* ------------- Add Share Meeting Info in center buttons group ------------- */}
+
                     { buttonsRight.indexOf('overflowmenu') !== -1
                         && <OverflowMenuButton
                             isOpen = { _overflowMenuVisible }
@@ -1340,12 +1377,11 @@ class Toolbox extends Component<Props, State> {
  * @returns {{}}
  */
 function _mapStateToProps(state) {
-    const { conference } = state['features/base/conference'];
+    const { conference, locked } = state['features/base/conference'];
     let { desktopSharingEnabled } = state['features/base/conference'];
     const {
         callStatsID,
-        enableFeaturesBasedOnToken,
-        iAmRecorder
+        enableFeaturesBasedOnToken
     } = state['features/base/config'];
     const sharedVideoStatus = state['features/shared-video'].status;
     const {
@@ -1355,8 +1391,6 @@ function _mapStateToProps(state) {
     const localParticipant = getLocalParticipant(state);
     const localRecordingStates = state['features/local-recording'];
     const localVideo = getLocalVideoTrack(state['features/base/tracks']);
-    const addPeopleEnabled = isAddPeopleEnabled(state);
-    const dialOutEnabled = isDialOutEnabled(state);
 
     let desktopSharingDisabledTooltipKey;
 
@@ -1388,13 +1422,12 @@ function _mapStateToProps(state) {
         _desktopSharingDisabledTooltipKey: desktopSharingDisabledTooltipKey,
         _dialog: Boolean(state['features/base/dialog'].component),
         _feedbackConfigured: Boolean(callStatsID),
-        _hideInviteButton:
-            iAmRecorder || (!addPeopleEnabled && !dialOutEnabled),
         _isGuest: state['features/base/jwt'].isGuest,
         _fullScreen: fullScreen,
         _tileViewEnabled: state['features/video-layout'].tileViewEnabled,
         _localParticipantID: localParticipant.id,
         _localRecState: localRecordingStates,
+        _locked: locked,
         _overflowMenuVisible: overflowMenuVisible,
         _raisedHand: localParticipant.raisedHand,
         _screensharing: localVideo && localVideo.videoType === 'desktop',

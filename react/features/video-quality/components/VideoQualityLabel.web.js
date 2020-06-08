@@ -1,5 +1,8 @@
 // @flow
 
+// ------------ import mobile browser check helper ------------
+import { isMobileBrowser } from '../../base/environment/utils'
+
 import Tooltip from '@atlaskit/tooltip';
 import React from 'react';
 
@@ -94,6 +97,11 @@ export class VideoQualityLabel extends AbstractVideoQualityLabel<Props> {
             labelContent = t(_labelKey);
             tooltipKey = _tooltipKey;
         }
+
+        // Don't show circular tooltip
+        // for mobile browser
+        if(isMobileBrowser())
+            return '';
 
 
         return (
