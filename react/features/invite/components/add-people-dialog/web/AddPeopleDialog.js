@@ -157,9 +157,10 @@ function AddPeopleDialog({
                     <span style={{fontWeight: '700'}}>PIN - </span>
                     <span className = 'spacer'>&nbsp;</span>
                     <span style={{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
-                        <div style={{opacity: '.5'}}>
-                            { `${interfaceConfig.PASSCODE}` }
-                        </div>
+                        <input disabled value={ `${interfaceConfig.PASSCODE}` }
+                            style={{ opacity: '.8', border: "none",
+                                backgroundColor: "#1e2844", color: "white" }}>
+                        </input>
                     </span>
                 </div>
 
