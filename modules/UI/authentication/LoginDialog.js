@@ -1,5 +1,6 @@
 /* global $, APP, config */
 
+import getRoomName from '../../../react/features/base/config/getRoomName';
 import { toJid } from '../../../react/features/base/connection';
 import {
     JitsiConnectionErrors
@@ -10,6 +11,17 @@ import {
  * @returns {string} html string
  */
 function getPasswordInputHtml() {
+
+    // intercept conference start and check if the room
+    // is being accessed directly or through Kredily route
+    let roomName = getRoomName();
+    document.domain = "kredily.com";
+    if(window.config_override && roomName) {
+        if(APP.store.getState()['features/base/config'].kredily
+            || interfaceConfig.KREDILY || window.kredily) window.kredily = true;
+        if(!window.kredily) window.location.href = "https://app.beta.kredily.com/greet/" + roomName;
+    }
+
     const placeholder = config.hosts.authdomain
         ? 'user identity'
         : 'user@domain.net';
