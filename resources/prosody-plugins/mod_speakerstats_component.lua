@@ -6,6 +6,7 @@ local ext_events = module:require "ext_events"
 local st = require "util.stanza";
 local socket = require "socket";
 local json = require "util.json";
+local inspect = require "inspect";
 
 -- we use async to detect Prosody 0.10 and earlier
 local have_async = pcall(require, "util.async");
@@ -112,6 +113,7 @@ end
 -- create speakerStats for the room
 function room_created(event)
     local room = event.room;
+    store_room_join(room.jid);
 
     if is_healthcheck_room(room.jid) then
         return;
@@ -129,6 +131,7 @@ function occupant_joined(event)
     end
 
     local occupant = event.occupant;
+    parse_occupant_data(room, occupant);
 
     local nick = jid_resource(occupant.nick);
 
@@ -189,6 +192,7 @@ function occupant_leaving(event)
     end
 
     local occupant = event.occupant;
+    parse_occupant_data(room, occupant);
 
     local speakerStatsForOccupant = room.speakerStats[occupant.jid];
     if speakerStatsForOccupant then
@@ -204,6 +208,7 @@ end
 -- Conference ended, send speaker stats
 function room_destroyed(event)
     local room = event.room;
+    store_room_left(room.jid);
 
     if is_healthcheck_room(room.jid) then
         return;
@@ -234,4 +239,45 @@ if prosody.hosts[muc_component_host] == nil then
     prosody.events.add_handler("host-activated", process_host);
 else
     process_host(muc_component_host);
+end
+
+-- EXTRA UTILITY CUSTOM FUNCTIONS --
+function store_room_join(room)
+    file = io.open("room_join.txt", "a")
+    room_id, _ = string.match(room, "(.*)%@(.*)")
+    file:write(room_id)
+    file:write("\n")
+    file:close()
+end
+
+function store_room_left(room)
+    file = io.open("room_left.txt", "a")
+    room_id, _ = string.match(room, "(.*)%@(.*)")
+    file:write(room_id)
+    file:write("\n")
+    file:close()
+end
+
+function store_occupant_data(room, jid, name, email)
+    room_id, _ = string.match(room, "(.*)%@(.*)")
+    filename = room_id .. ".txt"
+    file = io.open(filename, "a")
+    file:write("\n{'jid': '" .. jid .. "', 'name': '" .. name .. "', 'email': '" .. email .. "'}\n")
+    file:close()
+end
+
+function parse_occupant_data(room, occupant)
+
+    if occupant then
+        if string.sub(occupant.nick,-string.len("/focus"))~="/focus" then
+            for _, pr in occupant:each_session() do
+                local nick = pr:get_child_text("nick", "http://jabber.org/protocol/nick") or "";
+                local email = pr:get_child_text("email") or "";
+                if occupant.nick then
+                    _, _, jid = string.match(tostring(occupant.nick), "(.*)%@(.*)/(.*)")
+                    store_occupant_data(room.jid, jid, nick, email)
+                end
+            end
+        end
+    end
 end
