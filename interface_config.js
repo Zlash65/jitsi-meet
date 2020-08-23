@@ -276,7 +276,9 @@ var interfaceConfig = {
      * Extra variables to override config for kredily
     */
     KREDILY: false,
-    PASSCODE: ''
+    PASSCODE: '',
+    RECORDING: false,
+    STREAMING: false
 
     // no configuration value should follow this line.
 };
