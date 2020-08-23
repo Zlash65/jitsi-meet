@@ -984,10 +984,12 @@ class Toolbox extends Component<Props, State> {
                     onClick = { this._onToolbarToggleFullScreen }
                     text = { _fullScreen ? t('toolbar.exitFullScreen') : t('toolbar.enterFullScreen') } />,
             !isMobileBrowser() // disable LiveStream in mobile view
+                && (interfaceConfig.STREAMING || APP.store.getState()['features/base/config'].streaming)
                 && <LiveStreamButton
                     key = 'livestreaming'
                     showLabel = { true } />,
-            !isMobileBrowser() && false // disable Record for web and mobile
+            !isMobileBrowser() // disable Record for web and mobile
+                && (interfaceConfig.RECORDING || APP.store.getState()['features/base/config'].recording)
                 && <RecordButton
                     key = 'record'
                     showLabel = { true } />,
