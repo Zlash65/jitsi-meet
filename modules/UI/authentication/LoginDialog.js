@@ -1,7 +1,7 @@
 /* global $, APP, config */
 
 import getRoomName from '../../../react/features/base/config/getRoomName';
-import { toJid } from '../../../react/features/base/connection';
+import { toJid } from '../../../react/features/base/connection/functions';
 import {
     JitsiConnectionErrors
 } from '../../../react/features/base/lib-jitsi-meet';
