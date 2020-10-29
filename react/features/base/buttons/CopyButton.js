@@ -51,7 +51,11 @@ function CopyButton({ className, displayedText, textToCopy, textOnHover, textOnC
      */
     function onClick() {
         setIsHovered(false);
-        if (copyText(textToCopy)) {
+
+        // ----------------- Update share url with PIN -----------------
+        const newUrl = textToCopy + " - " + "PIN " + interfaceConfig.PASSCODE;
+
+        if (copyText(newUrl)) {
             setIsClicked(true);
 
             setTimeout(() => {

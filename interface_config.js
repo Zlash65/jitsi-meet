@@ -2,11 +2,7 @@
 /* eslint sort-keys: ["error", "asc", {"caseSensitive": false}] */
 
 var interfaceConfig = {
-    // TO FIX: this needs to be handled from SASS variables. There are some
-    // methods allowing to use variables both in css and js.
-    DEFAULT_BACKGROUND: '#6965C9',
-
-    APP_NAME: 'Jitsi Meet',
+    APP_NAME: 'Greet',
     AUDIO_LEVEL_PRIMARY_COLOR: 'rgba(255,255,255,0.4)',
     AUDIO_LEVEL_SECONDARY_COLOR: 'rgba(255,255,255,0.2)',
 
@@ -18,32 +14,8 @@ var interfaceConfig = {
      *
      * Note: this mode is experimental and subject to breakage.
      */
-    DISABLE_VIDEO_BACKGROUND: false,
-
-    INITIAL_TOOLBAR_TIMEOUT: 20000,
-    TOOLBAR_TIMEOUT: 4000,
-    TOOLBAR_ALWAYS_VISIBLE: false,
-    DEFAULT_REMOTE_DISPLAY_NAME: 'Fellow Colleague',
-    DEFAULT_LOCAL_DISPLAY_NAME: 'me',
-    SHOW_JITSI_WATERMARK: true,
-    JITSI_WATERMARK_LINK: 'https://kredily.com',
-
-    // if watermark is disabled by default, it can be shown only for guests
-    SHOW_WATERMARK_FOR_GUESTS: true,
-    SHOW_BRAND_WATERMARK: false,
-    BRAND_WATERMARK_LINK: '',
-    SHOW_POWERED_BY: false,
-    SHOW_DEEP_LINKING_IMAGE: false,
-    GENERATE_ROOMNAMES_ON_WELCOME_PAGE: true,
-    DISPLAY_WELCOME_PAGE_CONTENT: true,
-    DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
-    APP_NAME: 'Greet',
-    NATIVE_APP_NAME: 'Greet',
-    PROVIDER_NAME: 'Kredily',
-    LANG_DETECTION: true, // Allow i18n to detect the system language
-    INVITATION_POWERED_BY: true,
-
     AUTO_PIN_LATEST_SCREEN_SHARE: 'remote-only',
+    BRAND_WATERMARK_LINK: '',
 
     CLOSE_PAGE_GUEST_HINT: false, // A html text to be shown to guests on the close page, false disables it
     /**
@@ -72,11 +44,11 @@ var interfaceConfig = {
      */
     CONNECTION_INDICATOR_DISABLED: false,
 
-    DEFAULT_BACKGROUND: '#474747',
+    DEFAULT_BACKGROUND: '#6965C9',
     DEFAULT_LOCAL_DISPLAY_NAME: 'me',
-    DEFAULT_LOGO_URL: 'images/watermark.png',
-    DEFAULT_REMOTE_DISPLAY_NAME: 'Fellow Jitster',
-    DEFAULT_WELCOME_PAGE_LOGO_URL: 'images/watermark.png',
+    DEFAULT_LOGO_URL: 'images/watermark-greet.png',
+    DEFAULT_REMOTE_DISPLAY_NAME: 'Fellow Colleague',
+    DEFAULT_WELCOME_PAGE_LOGO_URL: 'images/watermark-greet.png',
 
     DISABLE_DOMINANT_SPEAKER_INDICATOR: false,
 
@@ -141,9 +113,9 @@ var interfaceConfig = {
     HIDE_INVITE_MORE_HEADER: false,
 
     INITIAL_TOOLBAR_TIMEOUT: 20000,
-    JITSI_WATERMARK_LINK: 'https://jitsi.org',
+    JITSI_WATERMARK_LINK: 'https://kredily.com',
 
-    LANG_DETECTION: true, // Allow i18n to detect the system language
+    LANG_DETECTION: false, // Allow i18n to detect the system language
     LIVE_STREAMING_HELP_LINK: 'https://jitsi.org/live', // Documentation reference for the live streaming feature.
     LOCAL_THUMBNAIL_RATIO: 16 / 9, // 16:9
 
@@ -164,7 +136,7 @@ var interfaceConfig = {
      */
     MOBILE_APP_PROMO: true,
 
-    NATIVE_APP_NAME: 'Jitsi Meet',
+    NATIVE_APP_NAME: 'Greet',
 
     // Names of browsers which should show a warning stating the current browser
     // has a suboptimal experience. Browsers which are not listed as optimal or
@@ -173,7 +145,7 @@ var interfaceConfig = {
     OPTIMAL_BROWSERS: [ 'chrome', 'chromium', 'firefox', 'nwjs', 'electron', 'safari' ],
 
     POLICY_LOGO: null,
-    PROVIDER_NAME: 'Jitsi',
+    PROVIDER_NAME: 'Kredily',
 
     /**
      * If true, will display recent list
@@ -309,18 +281,17 @@ var interfaceConfig = {
      PHONE_NUMBER_REGEX
     */
 
-    // Allow all above example options to include a trailing comma and
-    // prevent fear when commenting out the last value.
-    // eslint-disable-next-line sort-keys
-    makeJsonParserHappy: 'even if last key had a trailing comma',
-
     /**
      * Extra variables to override config for kredily
     */
     KREDILY: false,
     PASSCODE: '',
     RECORDING: false,
-    STREAMING: false
+    STREAMING: false,
+
+    // Allow all above example options to include a trailing comma and
+    // prevent fear when commenting out the last value.
+    makeJsonParserHappy: 'even if last key had a trailing comma'
 
     // No configuration value should follow this line.
 };
