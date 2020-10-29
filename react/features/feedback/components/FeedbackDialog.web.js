@@ -351,7 +351,7 @@ class FeedbackDialog extends Component<Props, State> {
 
         // send feedback to kredily endpoint
         const roomName = getRoomName();
-        const feedback_url = "https://app.beta.kredily.com/videochat/record-meeting-feedback/";
+        const feedback_url = "https://app.kredily.com/videochat/record-meeting-feedback/";
         const localParticipantID = document.cookie.replace(/(?:(?:^|.*;\s*)localParticipantID\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
         $.ajax({

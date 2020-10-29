@@ -123,7 +123,7 @@
         "ifDoNotHaveApp": "If you don't have the app yet:",
         "ifHaveApp": "If you already have the app:",
         "joinInApp": "Join this meeting using the app",
-        "launchWebButton": "Launch in web",
+        "launchWebButton": "Launch Greet",
         "title": "Launching your meeting in {{app}}…",
         "tryAgainButton": "Try again in desktop"
     },
