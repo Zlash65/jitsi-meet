@@ -12,7 +12,6 @@ import {
     sendAnalytics
 } from '../../../analytics';
 import { openDialog, toggleDialog } from '../../../base/dialog';
-import { isMobileBrowser } from '../../../base/environment/utils';
 import { translate } from '../../../base/i18n';
 import {
     IconChat,
@@ -1080,12 +1079,8 @@ class Toolbox extends Component<Props, State> {
                     key = 'stats'
                     onClick = { this._onToolbarOpenSpeakerStats }
                     text = { t('toolbar.speakerStats') } />,
-            this._shouldShowButton('e2ee')
-                && !isMobileBrowser() // disable E2EE in mobile view
-                && <E2EEButton
-                    key = 'e2ee'
-                    showLabel = { true } />,
             this._isEmbedMeetingVisible()
+                && false
                 && <OverflowMenuItem
                     accessibilityLabel = { t('toolbar.accessibilityLabel.embedMeeting') }
                     icon = { IconCodeBlock }
@@ -1362,15 +1357,6 @@ class Toolbox extends Component<Props, State> {
                                 tooltip = { isMobileBrowser() ? '' : t('toolbar.chat') } />
                             <ChatCounter />
                         </div> }
-                    { buttonsLeft.indexOf('desktop') !== -1
-                        && this._renderDesktopSharingButton() }
-                    { buttonsLeft.indexOf('raisehand') !== -1
-                        && <ToolbarButton
-                            accessibilityLabel = { t('toolbar.accessibilityLabel.raiseHand') }
-                            icon = { IconRaisedHand }
-                            onClick = { this._onToolbarToggleRaiseHand }
-                            toggled = { _raisedHand }
-                            tooltip = { t('toolbar.raiseHand') } /> }
                     {
                         buttonsLeft.indexOf('closedcaptions') !== -1
                             && <ClosedCaptionButton />

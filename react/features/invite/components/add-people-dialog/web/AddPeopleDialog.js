@@ -161,6 +161,8 @@ function AddPeopleDialog({
                     inviteText = { invite } />
 
                 {/* ----------------------------- PIN in share dialog ----------------------------- */}
+                <div className = 'invite-more-dialog separator' />
+
                 <div style={{display: 'flex', alignItems: 'baseline'}}>
                     <span style={{fontWeight: '700'}}>PIN - </span>
                     <span className = 'spacer'>&nbsp;</span>
@@ -178,8 +180,8 @@ function AddPeopleDialog({
                 }
                 {/* ----------------------------- PIN in share dialog ----------------------------- */}
 
-                { _embedMeetingVisible && <EmbedMeetingTrigger /> }
-                <div className = 'invite-more-dialog separator' />
+                {/* { _embedMeetingVisible && <EmbedMeetingTrigger /> }
+                <div className = 'invite-more-dialog separator' /> */}
                 {
                     _liveStreamViewURL
                         && <LiveStreamSection liveStreamViewURL = { _liveStreamViewURL } />
