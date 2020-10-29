@@ -1,7 +1,7 @@
 /* global $, APP, config */
 
 import getRoomName from '../../../react/features/base/config/getRoomName';
-import { toJid } from '../../../react/features/base/connection';
+import { toJid } from '../../../react/features/base/connection/functions';
 import {
     JitsiConnectionErrors
 } from '../../../react/features/base/lib-jitsi-meet';
@@ -19,7 +19,7 @@ function getPasswordInputHtml() {
     if(window.config_override && roomName) {
         if(APP.store.getState()['features/base/config'].kredily
             || interfaceConfig.KREDILY || window.kredily) window.kredily = true;
-        if(!window.kredily) window.location.href = "https://app.beta.kredily.com/greet/" + roomName;
+        if(!window.kredily) window.location.href = "https://app.kredily.com/greet/" + roomName;
     }
 
     const placeholder = config.hosts.authdomain

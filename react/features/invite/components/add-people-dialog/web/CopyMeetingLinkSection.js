@@ -1,11 +1,11 @@
 // @flow
 
-import React, { useState } from 'react';
+import React from 'react';
 
+import CopyButton from '../../../../base/buttons/CopyButton';
 import { translate } from '../../../../base/i18n';
-import { Icon, IconCheck, IconCopy } from '../../../../base/icons';
+import { getDecodedURI } from '../../../../base/util';
 
-import { copyText } from './utils';
 
 type Props = {
 
@@ -101,13 +101,12 @@ function CopyMeetingLinkSection({ t, url }: Props) {
     return (
         <>
             <span>{t('addPeople.shareLink')}</span>
-            <div
-                className = { `invite-more-dialog copy-link${isClicked ? ' clicked' : ''}` }
-                onClick = { onClick }
-                onMouseOut = { onHoverOut }
-                onMouseOver = { onHoverIn }>
-                { renderLinkContent() }
-            </div>
+            <CopyButton
+                className = 'invite-more-dialog-conference-url'
+                displayedText = { getDecodedURI(url) }
+                textOnCopySuccess = { t('addPeople.linkCopied') }
+                textOnHover = { t('addPeople.copyLink') }
+                textToCopy = { url } />
         </>
     );
 }

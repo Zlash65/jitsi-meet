@@ -91,7 +91,7 @@ class DeepLinkingMobilePage extends Component<Props> {
      */
     render() {
         const { _downloadUrl, _room, t } = this.props;
-        const { NATIVE_APP_NAME, SHOW_DEEP_LINKING_IMAGE } = interfaceConfig;
+        const { HIDE_DEEP_LINKING_LOGO, NATIVE_APP_NAME, SHOW_DEEP_LINKING_IMAGE } = interfaceConfig;
         const downloadButtonClassName
             = `${_SNS}__button ${_SNS}__button_primary`;
 
@@ -115,9 +115,13 @@ class DeepLinkingMobilePage extends Component<Props> {
         return (
             <div className = { _SNS }>
                 <div className = 'header'>
-                    <img
-                        className = 'logo'
-                        src = 'images/logo-deep-linking-greet.png' />
+                    {
+                        HIDE_DEEP_LINKING_LOGO
+                            ? null
+                            : <img
+                                className = 'logo'
+                                src = 'images/logo-deep-linking.png' />
+                    }
                 </div>
                 <div className = { `${_SNS}__body` }>
                     {
@@ -127,9 +131,9 @@ class DeepLinkingMobilePage extends Component<Props> {
                                 src = 'images/deep-linking-image.png' />
                             : null
                     }
-                    <p className = { `${_SNS}__text` }>
+                    {/* <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.appNotInstalled`, { app: NATIVE_APP_NAME }) }
-                    </p>
+                    </p> */}
                     {/* <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.ifHaveApp`) }
                     </p>
@@ -146,16 +150,16 @@ class DeepLinkingMobilePage extends Component<Props> {
                     <p className = { `${_SNS}__text` }>
                         { t(`${_TNS}.ifDoNotHaveApp`) }
                     </p> */}
-                    <a
+                    {/* <a
                         { ...onOpenLinkProperties }
                         // href = { this._generateDownloadURL() }
                         // onClick = { this._onDownloadApp }
                         target = '_top'>
                         Mobile App launching soon...
-                        {/* <button className = { downloadButtonClassName }>
+                        <button className = { downloadButtonClassName }>
                             { t(`${_TNS}.downloadApp`) }
-                        </button> */}
-                    </a>
+                        </button>
+                    </a> */}
                     {
                         isSupportedMobileBrowser()
                             && <a
